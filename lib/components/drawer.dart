@@ -58,9 +58,11 @@ class AppDrawer extends StatelessWidget {
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.contact_mail),
+              leading: Icon(Icons.contact_page),
               title: Text("Contact"),
-              onTap: () {},
+              onTap: () {
+                Get.toNamed('/contact');
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),

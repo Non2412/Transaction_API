@@ -1,3 +1,5 @@
+// ignore: unused_import
+import '../screens/contact_screen.dart';
 abstract class AppRoutes {
   AppRoutes._();
 
@@ -8,6 +10,7 @@ abstract class AppRoutes {
   static const forgetPassword = '/forget-password';
   static const home = '/home'; // สำหรับในอนาคต
   static const profile = '/profile'; // สำหรับในอนาคต
+  static const contact = '/contact'; // เพิ่ม route สำหรับ Contact Screen
 
   // Helper methods สำหรับการนำทาง
   static String getSplashRoute() => splash;
@@ -16,4 +19,5 @@ abstract class AppRoutes {
   static String getForgetPasswordRoute() => forgetPassword;
   static String getHomeRoute() => home;
   static String getProfileRoute() => profile;
+  static String getContactRoute() => contact;
 }
