@@ -54,17 +54,18 @@ class ContactInfoCard extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.phone, color: Colors.green),
               title: const Text('โทรศัพท์'),
-              subtitle: const Text('02-123-4567'),
+              subtitle: const Text('094-510-3675'),
             ),
             ListTile(
               leading: const Icon(Icons.email, color: Colors.red),
               title: const Text('อีเมล'),
-              subtitle: const Text('info@example.com'),
+              subtitle: const Text('stu6612732135@sskru.ac.th'),
             ),
             ListTile(
               leading: const Icon(Icons.location_on, color: Colors.blue),
               title: const Text('ที่อยู่'),
-              subtitle: const Text('123 ถนนสุขุมวิท กรุงเทพมหานคร 10110'),
+              subtitle: const Text('มหาวิทยาลัยราชภัฏศรีสะเกษ คณะศิลปศาสาสและวิทยาศาสตร์ สาขาวิทยาการคอมพิวเตอร์ '
+                  '  ถนนสุขาภิบาล ตำบลเมืองใต้ อำเภอเมือง จังหวัดศรีสะเกษ 33000'),
             ),
           ],
         ),
