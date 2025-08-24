@@ -6,6 +6,8 @@ import '../screens/login.dart';
 import '../screens/regis.dart';
 import '../screens/forget_pass.dart';
 import '../screens/home.dart';
+// ignore: unused_import
+import '../screens/contact_screen.dart';
 
 class AppPages {
   AppPages._();
@@ -58,5 +60,9 @@ class AppPages {
       transitionDuration: const Duration(milliseconds: 300),
     ),
     */
+    GetPage(
+  name: AppRoutes.contact,
+  page: () => const ContactScreen(),
+),
   ];
 }
