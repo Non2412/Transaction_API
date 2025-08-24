@@ -6,6 +6,7 @@ import '../screens/login.dart';
 import '../screens/regis.dart';
 import '../screens/forget_pass.dart';
 import '../screens/home.dart';
+import '../screens/about_screen.dart';
 
 class AppPages {
   AppPages._();
@@ -48,6 +49,13 @@ class AppPages {
       name: AppRoutes.home,
       page: () => const HomeScreen(),
       transition: Transition.zoom,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
+     GetPage(
+      name: AppRoutes.about,
+      page: () => const AboutScreen(),
+      transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
     /*

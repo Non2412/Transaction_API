@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
+import '../routes/app_routes.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
@@ -45,12 +46,17 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.home),
               title: Text("Home"),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+              },
             ),
             ListTile(
               leading: Icon(Icons.account_box),
               title: Text("About"),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop(); // ปิด drawer ก่อน
+                Get.toNamed(AppRoutes.about); // เพิ่มบรรทัดนี้
+              },
             ),
             ListTile(
               leading: Icon(Icons.grid_3x3_outlined),
