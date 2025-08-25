@@ -58,12 +58,12 @@ class MainApp extends StatelessWidget {
       ),
 
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.blue[700],
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF), // ขาว
+        primarySwatch: Colors.green,
+        primaryColor: Colors.green[700],
 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.green, // เขียว
           foregroundColor: Colors.white,
           elevation: 2,
           centerTitle: true,
@@ -77,7 +77,7 @@ class MainApp extends StatelessWidget {
 
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.green, // เขียว
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -94,7 +94,7 @@ class MainApp extends StatelessWidget {
 
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.blue[600],
+            foregroundColor: Colors.green[600], // เขียว
             textStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -105,11 +105,11 @@ class MainApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.grey[400]!, width: 1.5),
+            borderSide: BorderSide(color: Colors.green[200]!, width: 1.5), // เขียวอ่อน
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[600]!, width: 2.0),
+            borderSide: BorderSide(color: Colors.green[600]!, width: 2.0), // เขียว
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -119,19 +119,19 @@ class MainApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: Colors.red[600]!, width: 2.0),
           ),
-          fillColor: Colors.grey[50],
+          fillColor: Colors.green[50], // เขียวจาง
           filled: true,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 20,
           ),
           labelStyle: TextStyle(
-            color: Colors.grey[700],
+            color: Colors.green[700], // เขียว
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
           floatingLabelStyle: TextStyle(
-            color: Colors.blue[600],
+            color: Colors.green[600], // เขียว
             fontSize: 22,
             fontWeight: FontWeight.w500,
           ),
@@ -139,4 +139,4 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
-}
+  }
