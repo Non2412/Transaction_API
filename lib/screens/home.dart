@@ -17,7 +17,65 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Page')),
-      drawer: AppDrawer(),
+      drawer: Drawer(
+        backgroundColor: Colors.white, // เปลี่ยนพื้นหลัง Drawer เป็นขาว
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.green, // เปลี่ยน header เป็นเขียว
+              ),
+              accountName: Text(
+                'sup asdf',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              accountEmail: Text(
+                'supp@gmail.com',
+                style: const TextStyle(
+                  color: Colors.white70,
+                ),
+              ),
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, color: Colors.green, size: 40),
+              ),
+              otherAccountsPictures: const [
+                Icon(Icons.star, color: Colors.yellow, size: 28),
+                Icon(Icons.favorite, color: Colors.pink, size: 28),
+              ],
+            ),
+            ListTile(
+              leading: const Icon(Icons.home, color: Colors.green),
+              title: const Text('Home'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.person, color: Colors.green),
+              title: const Text('About'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.tag, color: Colors.green),
+              title: const Text('Products'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.contact_mail, color: Colors.green),
+              title: const Text('Contact'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.green),
+              title: const Text('Logout'),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
       body: Obx(() {
         final user = authController.currentUser;
         
