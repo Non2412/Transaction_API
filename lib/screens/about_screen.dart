@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends StatefulWidget {
   const AboutScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  bool _isAppInfoExpanded = false;
+  bool _isDeveloperExpanded = false;
+  bool _isContactExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -87,27 +96,45 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
 
-            // About Content
-            _buildInfoCard(
+            // Expandable About Content
+            _buildExpandableInfoCard(
               icon: Icons.description,
               title: 'เกี่ยวกับแอปพลิเคชัน',
-              content: 'แอปพลิเคชันนี้พัฒนาด้วย Flutter เพื่อให้ผู้ใช้งานสามารถเข้าถึงข้อมูลและบริการต่างๆ ได้อย่างสะดวกและรวดเร็ว',
+              content: 'แอปพลิเคชันนี้พัฒนาด้วย Flutter เพื่อให้ผู้ใช้งานสามารถเข้าถึงข้อมูลและบริการต่างๆ ได้อย่างสะดวกและรวดเร็ว โดยมุ่งเน้นการใช้งานที่ง่ายและประสิทธิภาพที่ดี',
+              isExpanded: _isAppInfoExpanded,
+              onTap: () {
+                setState(() {
+                  _isAppInfoExpanded = !_isAppInfoExpanded;
+                });
+              },
             ),
 
             const SizedBox(height: 20),
 
-            _buildInfoCard(
+            _buildExpandableInfoCard(
               icon: Icons.developer_mode,
               title: 'ผู้พัฒนา',
-              content: 'พัฒนาโดยทีมงาน..........',
+              content: 'พัฒนาโดยทีมนักศึกษาสาขาวิทยาการคอมพิวเตอร์ที่กำลังศึกษาด้านการพัฒนาแอปพลิเคชันมือถือ โดยการใช้เทคโนโลยี Flutter และ Dart ในการสร้างแอปพลิเคชัน',
+              isExpanded: _isDeveloperExpanded,
+              onTap: () {
+                setState(() {
+                  _isDeveloperExpanded = !_isDeveloperExpanded;
+                });
+              },
             ),
 
             const SizedBox(height: 20),
 
-            _buildInfoCard(
+            _buildExpandableInfoCard(
               icon: Icons.contact_mail,
               title: 'ติดต่อเรา',
-              content: 'หากมีข้อสงสัยหรือต้องการความช่วยเหลือ สามารถติดต่อเราได้ผ่าน Contact ที่แอปพลิเคชัน',
+              content: 'หากมีข้อสงสัยหรือต้องการความช่วยเหลือ สามารถติดต่อเราได้ผ่าน Contact ที่แอปพลิเคชัน หรือส่งข้อความถึงทีมงานของเราได้ตลอดเวลา เราพร้อมให้บริการและแก้ไขปัญหาต่างๆ',
+              isExpanded: _isContactExpanded,
+              onTap: () {
+                setState(() {
+                  _isContactExpanded = !_isContactExpanded;
+                });
+              },
             ),
 
             const SizedBox(height: 30),
@@ -160,7 +187,7 @@ class AboutScreen extends StatelessWidget {
             // Copyright
             Center(
               child: Text(
-                '© 2024 My Flutter App\nAll rights reserved.',
+                '© 2024 Transaction_API App\nAll rights reserved.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,
@@ -174,12 +201,16 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard({
+  Widget _buildExpandableInfoCard({
     required IconData icon,
     required String title,
     required String content,
+    required bool isExpanded,
+    required VoidCallback onTap,
   }) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -192,44 +223,74 @@ class AboutScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.blue[50],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              icon,
-              color: Colors.blue[600],
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: Colors.blue[600],
+                    size: 24,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  content,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    height: 1.5,
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                AnimatedRotation(
+                  turns: isExpanded ? 0.5 : 0,
+                  duration: const Duration(milliseconds: 300),
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.grey[600],
+                    size: 24,
                   ),
                 ),
               ],
+            ),
+          ),
+          AnimatedCrossFade(
+            duration: const Duration(milliseconds: 300),
+            crossFadeState: isExpanded 
+              ? CrossFadeState.showSecond 
+              : CrossFadeState.showFirst,
+            firstChild: const SizedBox.shrink(),
+            secondChild: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+              ),
+              child: Text(
+                content,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[700],
+                  height: 1.5,
+                ),
+              ),
             ),
           ),
         ],
