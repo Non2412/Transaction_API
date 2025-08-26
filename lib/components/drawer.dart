@@ -55,7 +55,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("About"),
               onTap: () {
                 Navigator.of(context).pop(); // ปิด drawer ก่อน
-                Get.toNamed(AppRoutes.about); // เพิ่มบรรทัดนี้
+                Get.toNamed(AppRoutes.about);
               },
             ),
             ListTile(

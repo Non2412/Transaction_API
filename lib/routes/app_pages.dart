@@ -51,7 +51,7 @@ class AppPages {
       transition: Transition.zoom,
       transitionDuration: const Duration(milliseconds: 300),
     ),
-
+    // About Page
      GetPage(
       name: AppRoutes.about,
       page: () => const AboutScreen(),
