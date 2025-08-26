@@ -8,6 +8,7 @@ import '../screens/forget_pass.dart';
 import '../screens/home.dart';
 // ignore: unused_import
 import '../screens/contact_screen.dart';
+import '../screens/about_screen.dart';
 
 class AppPages {
   AppPages._();
@@ -50,6 +51,13 @@ class AppPages {
       name: AppRoutes.home,
       page: () => const HomeScreen(),
       transition: Transition.zoom,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    // About Page
+     GetPage(
+      name: AppRoutes.about,
+      page: () => const AboutScreen(),
+      transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
     /*
