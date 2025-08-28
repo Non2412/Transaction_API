@@ -72,7 +72,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
       Get.snackbar(
         'สำเร็จ',
-        'บันทึกข้อมูلสินค้าเรียบร้อยแล้ว',
+        'บันทึกข้อมูลสินค้าเรียบร้อยแล้ว',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.white,
@@ -178,19 +178,20 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'ไม่พบข้อมูลสินค้า',
+                    'หน้ารายละเอียดสินค้า',
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'กรุณาเลือกสินค้าจากหน้ารายการสินค้า',
+                    'เลือกสินค้าจากหน้ารายการสินค้าเพื่อดูรายละเอียด',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -317,7 +318,7 @@ class _AboutScreenState extends State<AboutScreen> {
                         style: const TextStyle(fontSize: 16),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'กรุณาใส่รายละเอียดสินค้า';
+                            return 'กrุณาใส่รายละเอียดสินค้า';
                           }
                           return null;
                         },
