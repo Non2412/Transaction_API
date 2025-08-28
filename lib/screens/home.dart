@@ -71,7 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.green),
               title: const Text('Logout'),
-              onTap: () {},
+              onTap: () async {
+                await authController.logout(); // เรียก logout จาก controller
+                Get.offAllNamed('/login');     // กลับไปหน้า login (หรือใช้ AppRoutes.login ถ้ามี)
+              },
             ),
           ],
         ),
