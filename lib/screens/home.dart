@@ -51,29 +51,41 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.home, color: Colors.green),
               title: const Text('Home'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context); // ปิด Drawer
+                // อยู่หน้า Home อยู่แล้ว ไม่ต้องเปลี่ยนหน้า
+              },
             ),
             ListTile(
               leading: const Icon(Icons.person, color: Colors.green),
               title: const Text('About'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed('/about'); // หรือใช้ AppRoutes.about ถ้ามี
+              },
             ),
             ListTile(
               leading: const Icon(Icons.tag, color: Colors.green),
               title: const Text('Products'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed('/products'); // หรือใช้ AppRoutes.products ถ้ามี
+              },
             ),
             ListTile(
               leading: const Icon(Icons.contact_mail, color: Colors.green),
               title: const Text('Contact'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed('/contact'); // หรือใช้ AppRoutes.contact ถ้ามี
+              },
             ),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.green),
               title: const Text('Logout'),
               onTap: () async {
-                await authController.logout(); // เรียก logout จาก controller
-                Get.offAllNamed('/login');     // กลับไปหน้า login (หรือใช้ AppRoutes.login ถ้ามี)
+                await authController.logout();
+                Get.offAllNamed('/login'); // หรือใช้ AppRoutes.login ถ้ามี
               },
             ),
           ],
