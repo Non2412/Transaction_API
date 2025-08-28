@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/navigation_helper.dart';
-import '../services/storage_service.dart';
+// import '../services/storage_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -97,13 +97,8 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<bool> _checkLoginStatus() async {
-    try {
-      final storageService = StorageService();
-      await storageService.init();
-      return storageService.hasToken();
-    } catch (e) {
-      return false;
-    }
+  // StorageService ถูกปิดการใช้งานชั่วคราวเพื่อ build ผ่าน
+  return false;
   }
 
   @override

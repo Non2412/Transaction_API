@@ -6,9 +6,25 @@ plugins {
 }
 
 android {
+    packagingOptions {
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/proguard/*")
+        exclude("META-INF/*.version")
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/INDEX.LIST")
+        exclude("META-INF/io.netty.versions.properties")
+        exclude("META-INF/ASL2.0")
+        exclude("META-INF/**")
+    }
     namespace = "com.example.form_validate"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
