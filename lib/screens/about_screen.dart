@@ -181,7 +181,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     'หน้ารายละเอียดสินค้า',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
                     ),
                   ),
                   SizedBox(height: 8),
@@ -191,7 +191,6 @@ class _AboutScreenState extends State<AboutScreen> {
                       fontSize: 14,
                       color: Colors.grey,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
