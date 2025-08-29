@@ -1,20 +1,19 @@
-// ignore: unused_import
-import '../screens/contact_screen.dart';
+// routes/app_routes.dart
 abstract class AppRoutes {
   AppRoutes._();
 
   // กำหนดชื่อ routes ทั้งหมด
-  static const splash = '/'; // เปลี่ยนให้ splash เป็น initial route
+  static const splash = '/';
   static const login = '/login';
   static const register = '/register';
   static const forgetPassword = '/forget-password';
-  static const home = '/home'; // สำหรับในอนาคต
-  static const profile = '/profile'; // สำหรับในอนาคต
-  static const contact = '/contact'; // เพิ่ม route สำหรับ Contact Screen
+  static const home = '/home';
+  static const profile = '/profile';
+  static const contact = '/contact';   // ✅ Contact
   static const about = '/about';
   static const products = '/products';
 
-  // Helper methods สำหรับการนำทาง
+  // Helper methods
   static String getSplashRoute() => splash;
   static String getLoginRoute() => login;
   static String getRegisterRoute() => register;

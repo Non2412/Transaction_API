@@ -1,14 +1,12 @@
+// main.dart
 import 'package:flutter/material.dart';
-import 'package:form_validate/screens/home.dart';
-import 'package:form_validate/screens/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+
 import 'controllers/auth_controller.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
-import '../screens/about_screen.dart' hide AboutScreen;
-import '../screens/products_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,13 +30,13 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Form Validate App',
 
-      // กำหนด initial route เป็น Splash Screen
+      // initial route
       initialRoute: AppRoutes.splash,
 
-      // กำหนด pages และ routes
+      // ใช้ routes จาก app_pages.dart
       getPages: AppPages.routes,
 
-      // กำหนด route ที่ไม่พบ
+      // ถ้า route ไม่เจอ
       unknownRoute: GetPage(
         name: '/notfound',
         page: () => Scaffold(
@@ -62,107 +60,17 @@ class MainApp extends StatelessWidget {
       ),
 
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFFFFFF), // ขาว
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         primarySwatch: Colors.green,
         primaryColor: Colors.green[700],
 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.green, // เขียว
+          backgroundColor: Colors.green,
           foregroundColor: Colors.white,
           elevation: 2,
           centerTitle: true,
         ),
-
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontSize: 18, color: Colors.black),
-          bodyMedium: TextStyle(fontSize: 16, color: Colors.black54),
-          bodySmall: TextStyle(fontSize: 14, color: Colors.black54),
-        ),
-
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green, // เขียว
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            minimumSize: const Size(88, 48),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            textStyle: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-            elevation: 2,
-          ),
-        ),
-
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.green[600], // เขียว
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.green[200]!, width: 1.5), // เขียวอ่อน
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.green[600]!, width: 2.0), // เขียว
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red[400]!, width: 1.5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red[600]!, width: 2.0),
-          ),
-          fillColor: Colors.green[50], // เขียวจาง
-          filled: true,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 20,
-          ),
-          labelStyle: TextStyle(
-            color: Colors.green[700], // เขียว
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-          ),
-          floatingLabelStyle: TextStyle(
-            color: Colors.green[600], // เขียว
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
       ),
     );
   }
-}
-
-class AppPages {
-  static final routes = [
-    GetPage(
-      name: AppRoutes.splash,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.home,
-      page: () => const HomeScreen(),
-    ),
-    GetPage(
-      name: '/about',
-      page: () => const AboutScreen(),
-    ),
-    GetPage(
-      name: '/products',
-      page: () => const ProductsScreen(),
-    ),
-    // เพิ่ม routes อื่นๆ ตามต้องการ
-  ];
 }

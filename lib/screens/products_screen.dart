@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import '../components/drawer.dart';
 
 class Product {
@@ -63,6 +65,69 @@ class Product {
   }
 }
 
+class ProductController extends GetxController {
+  var products = <Product>[].obs;
+  
+  @override
+  void onInit() {
+    super.onInit();
+    loadProducts();
+  }
+  
+  // โหลดข้อมูลจาก SharedPreferences
+  Future<void> loadProducts() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final productsJson = prefs.getString('products');
+      
+      if (productsJson != null) {
+        final List<dynamic> productsList = json.decode(productsJson);
+        products.value = productsList.map((json) => Product.fromJson(json)).toList();
+      }
+    } catch (e) {
+      print('Error loading products: $e');
+    }
+  }
+  
+  // บันทึกข้อมูลลง SharedPreferences
+  Future<void> saveProducts() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final productsJson = json.encode(products.map((product) => product.toJson()).toList());
+      await prefs.setString('products', productsJson);
+    } catch (e) {
+      print('Error saving products: $e');
+    }
+  }
+  
+  // เพิ่มสินค้า
+  void addProduct(Product product) {
+    products.add(product);
+    saveProducts();
+  }
+  
+  // อัปเดตสินค้า
+  void updateProduct(Product updatedProduct) {
+    final index = products.indexWhere((product) => product.id == updatedProduct.id);
+    if (index != -1) {
+      products[index] = updatedProduct;
+      saveProducts();
+    }
+  }
+  
+  // ลบสินค้า
+  void deleteProduct(int productId) {
+    products.removeWhere((product) => product.id == productId);
+    saveProducts();
+  }
+  
+  // สร้าง ID ใหม่
+  int generateNewId() {
+    if (products.isEmpty) return 1;
+    return products.map((p) => p.id).reduce((a, b) => a > b ? a : b) + 1;
+  }
+}
+
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
 
@@ -71,8 +136,8 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  List<Product> products = [];
-
+  final ProductController productController = Get.put(ProductController());
+  
   String searchTerm = '';
   String selectedCategory = '';
 
@@ -205,41 +270,43 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   Widget _buildProductsList() {
-    List<Product> filteredProducts = products.where((product) {
-      bool matchesSearch = searchTerm.isEmpty ||
-          product.name.toLowerCase().contains(searchTerm.toLowerCase()) ||
-          product.description.toLowerCase().contains(searchTerm.toLowerCase());
+    return Obx(() {
+      List<Product> filteredProducts = productController.products.where((product) {
+        bool matchesSearch = searchTerm.isEmpty ||
+            product.name.toLowerCase().contains(searchTerm.toLowerCase()) ||
+            product.description.toLowerCase().contains(searchTerm.toLowerCase());
 
-      bool matchesCategory =
-          selectedCategory.isEmpty || product.category == selectedCategory;
+        bool matchesCategory =
+            selectedCategory.isEmpty || product.category == selectedCategory;
 
-      return matchesSearch && matchesCategory;
-    }).toList();
+        return matchesSearch && matchesCategory;
+      }).toList();
 
-    if (filteredProducts.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey),
-            const SizedBox(height: 16),
-            Text(
-              'ยังไม่มีสินค้า กรุณาเพิ่มสินค้าใหม่',
-              style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
-            ),
-          ],
-        ),
+      if (filteredProducts.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey),
+              const SizedBox(height: 16),
+              Text(
+                'ยังไม่มีสินค้า กรุณาเพิ่มสินค้าใหม่',
+                style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
+              ),
+            ],
+          ),
+        );
+      }
+
+      return ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: filteredProducts.length,
+        itemBuilder: (context, index) {
+          final product = filteredProducts[index];
+          return _buildProductCard(product);
+        },
       );
-    }
-
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: filteredProducts.length,
-      itemBuilder: (context, index) {
-        final product = filteredProducts[index];
-        return _buildProductCard(product);
-      },
-    );
+    });
   }
 
   Widget _buildProductCard(Product product) {
@@ -247,122 +314,140 @@ class _ProductsScreenState extends State<ProductsScreen> {
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Product Image
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.green[50],
-                border: Border.all(color: Colors.green.shade100, width: 2),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  product.image,
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.green[50],
-                      child: const Icon(
-                        Icons.image_not_supported,
-                        color: Colors.green,
-                        size: 36,
-                      ),
-                    );
-                  },
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.green[50],
-                      child: const Center(
-                        child: CircularProgressIndicator(color: Colors.green),
-                      ),
-                    );
-                  },
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () async {
+          // นำทางไปหน้ารายละเอียดสินค้า
+          final result = await Get.toNamed('/about', arguments: product.toJson());
+          
+          // จัดการผลลัพธ์ที่ส่งกลับมา
+          if (result != null && result is Map<String, dynamic>) {
+            if (result['action'] == 'update') {
+              final updatedProductData = result['data'] as Map<String, dynamic>;
+              final updatedProduct = Product.fromJson(updatedProductData);
+              productController.updateProduct(updatedProduct);
+            } else if (result['action'] == 'delete') {
+              productController.deleteProduct(product.id);
+            }
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Product Image
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.green[50],
+                  border: Border.all(color: Colors.green.shade100, width: 2),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    product.image,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 80,
+                        height: 80,
+                        color: Colors.green[50],
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          color: Colors.green,
+                          size: 36,
+                        ),
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        width: 80,
+                        height: 80,
+                        color: Colors.green[50],
+                        child: const Center(
+                          child: CircularProgressIndicator(color: Colors.green),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 16),
+              const SizedBox(width: 16),
 
-            // Product Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
+              // Product Details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    product.description,
-                    style: TextStyle(
-                      color: Colors.grey.shade700,
-                      fontSize: 14,
+                    const SizedBox(height: 4),
+                    Text(
+                      product.description,
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 14,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.green[100],
-                          borderRadius: BorderRadius.circular(12),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.green[100],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            product.category,
+                            style: TextStyle(
+                              color: const Color.fromRGBO(76, 175, 80, 1),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          product.category,
+                        const SizedBox(width: 8),
+                        Icon(Icons.inventory, size: 16, color: Colors.green[400]),
+                        Text(
+                          ' คงเหลือ: ${product.stock}',
                           style: TextStyle(
-                            color: const Color.fromRGBO(76, 175, 80, 1),
-                            fontSize: 12,
+                            color: product.stock > 10 ? Colors.green : Colors.orange,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Icon(Icons.inventory, size: 16, color: Colors.green[400]),
-                      Text(
-                        ' คงเหลือ: ${product.stock}',
-                        style: TextStyle(
-                          color: product.stock > 10 ? Colors.green : Colors.orange,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '฿${product.price.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green[700],
+                      ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    Text(
+                      '฿${product.price.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green[700],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -503,7 +588,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   void _saveProduct() {
     if (_validateForm()) {
       final newProduct = Product(
-        id: _generateNewId(),
+        id: productController.generateNewId(),
         name: _nameController.text.trim(),
         price: double.parse(_priceController.text),
         category: _categoryController.text,
@@ -514,9 +599,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         description: _descriptionController.text.trim(),
       );
 
-      setState(() {
-        products.add(newProduct);
-      });
+      productController.addProduct(newProduct);
 
       Navigator.pop(context);
       Get.snackbar(
@@ -592,11 +675,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     }
 
     return true;
-  }
-
-  int _generateNewId() {
-    if (products.isEmpty) return 1;
-    return products.map((p) => p.id).reduce((a, b) => a > b ? a : b) + 1;
   }
 
   void _clearForm() {

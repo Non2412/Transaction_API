@@ -1,3 +1,4 @@
+// components/app_drawer.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,6 @@ import '../routes/app_routes.dart';
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
 
-  // ใช้ Get.find เพื่อดึง AuthController ที่ถูก inject แล้ว
   final AuthController authController = Get.find<AuthController>();
 
   @override
@@ -21,63 +21,53 @@ class AppDrawer extends StatelessWidget {
             UserAccountsDrawerHeader(
               accountName: Text(
                 user?.fullName ?? "Guest",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               accountEmail: Text(
                 user?.email ?? "",
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
-              currentAccountPicture: CircleAvatar(
+              currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.blueAccent,
                 child: Icon(Icons.person, size: 40, color: Colors.white),
               ),
-              decoration: BoxDecoration(color: Colors.blueAccent),
-              otherAccountsPictures: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.star, color: Colors.amber),
-                ),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.favorite, color: Colors.pink),
-                ),
-              ],
+              decoration: const BoxDecoration(color: Colors.blueAccent),
             ),
             ListTile(
-              leading: Icon(Icons.home, color: Colors.green),
-              title: Text("Home"),
+              leading: const Icon(Icons.home, color: Colors.green),
+              title: const Text("Home"),
               onTap: () {
-                Navigator.of(context).pop(); // ปิด drawer
-                Get.offNamed(AppRoutes.home); // ไปหน้า Home
+                Navigator.of(context).pop();
+                Get.offNamed(AppRoutes.home);
               },
             ),
             ListTile(
-              leading: Icon(Icons.account_box, color: Colors.green),
-              title: Text("About"),
+              leading: const Icon(Icons.account_box, color: Colors.green),
+              title: const Text("About"),
               onTap: () {
                 Navigator.of(context).pop();
                 Get.toNamed(AppRoutes.about);
               },
             ),
             ListTile(
-              leading: Icon(Icons.grid_3x3_outlined, color: const Color.fromRGBO(76, 175, 80, 1)),
-              title: Text("Products"),
+              leading: const Icon(Icons.grid_3x3_outlined, color: Colors.green),
+              title: const Text("Products"),
               onTap: () {
                 Navigator.of(context).pop();
-                Get.toNamed('/products'); // หรือ AppRoutes.products ถ้ามี
+                Get.toNamed(AppRoutes.products);
               },
             ),
             ListTile(
-              leading: Icon(Icons.contact_page, color: const Color.fromRGBO(76, 175, 80, 1)),
-              title: Text("Contact"),
+              leading: const Icon(Icons.contact_page, color: Colors.green),
+              title: const Text("Contact"),
               onTap: () {
                 Navigator.of(context).pop();
-                Get.toNamed(AppRoutes.contact);
+                Get.toNamed(AppRoutes.contact); // ✅ ไปหน้า Contact
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout, color: Colors.green),
-              title: Text("Logout"),
+              leading: const Icon(Icons.logout, color: Colors.green),
+              title: const Text("Logout"),
               onTap: () async {
                 Navigator.of(context).pop();
                 await authController.logout();
