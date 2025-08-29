@@ -17,7 +17,80 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Page')),
-      drawer: AppDrawer(),
+      drawer: Drawer(
+        backgroundColor: Colors.white, // เปลี่ยนพื้นหลัง Drawer เป็นขาว
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.green, // เปลี่ยน header เป็นเขียว
+              ),
+              accountName: Text(
+                'sup asdf',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              accountEmail: Text(
+                'supp@gmail.com',
+                style: const TextStyle(
+                  color: Colors.white70,
+                ),
+              ),
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, color: Colors.green, size: 40),
+              ),
+              otherAccountsPictures: const [
+                Icon(Icons.star, color: Colors.yellow, size: 28),
+                Icon(Icons.favorite, color: Colors.pink, size: 28),
+              ],
+            ),
+            ListTile(
+              leading: const Icon(Icons.home, color: Colors.green),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context); // ปิด Drawer
+                // อยู่หน้า Home อยู่แล้ว ไม่ต้องเปลี่ยนหน้า
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person, color: Colors.green),
+              title: const Text('About'),
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed('/about'); // หรือใช้ AppRoutes.about ถ้ามี
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.tag, color: Colors.green),
+              title: const Text('Products'),
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed('/products'); // หรือใช้ AppRoutes.products ถ้ามี
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.contact_mail, color: Colors.green),
+              title: const Text('Contact'),
+              onTap: () {
+                Navigator.pop(context);
+                Get.toNamed('/contact'); // หรือใช้ AppRoutes.contact ถ้ามี
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.green),
+              title: const Text('Logout'),
+              onTap: () async {
+                await authController.logout();
+                Get.offAllNamed('/login'); // หรือใช้ AppRoutes.login ถ้ามี
+              },
+            ),
+          ],
+        ),
+      ),
       body: Obx(() {
         final user = authController.currentUser;
         

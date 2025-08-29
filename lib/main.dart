@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'controllers/auth_controller.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
-import '../screens/about_screen.dart';
+import '../screens/about_screen.dart' hide AboutScreen;
 import '../screens/products_screen.dart';
 
 void main() async {
