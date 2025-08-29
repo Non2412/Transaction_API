@@ -12,6 +12,7 @@ abstract class AppRoutes {
   static const profile = '/profile'; // สำหรับในอนาคต
   static const contact = '/contact'; // เพิ่ม route สำหรับ Contact Screen
   static const about = '/about';
+  static const products = '/products';
 
   // Helper methods สำหรับการนำทาง
   static String getSplashRoute() => splash;
@@ -22,4 +23,5 @@ abstract class AppRoutes {
   static String getProfileRoute() => profile;
   static String getContactRoute() => contact;
   static String getAboutRoute() => about;
+  static String getProductsRoute() => products;
 }

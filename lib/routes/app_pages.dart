@@ -9,6 +9,7 @@ import '../screens/home.dart';
 // ignore: unused_import
 import '../screens/contact_screen.dart';
 import '../screens/about_screen.dart';
+import '../screens/products_screen.dart';
 
 class AppPages {
   AppPages._();
@@ -45,6 +46,13 @@ class AppPages {
       transition: Transition.cupertino,
       transitionDuration: const Duration(milliseconds: 300),
     ),
+
+    GetPage(
+      name: AppRoutes.products,
+      page: () => const ProductsScreen(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+   ),
 
     // อนาคตสามารถเพิ่ม routes อื่นๆ ได้ที่นี่
     GetPage(
