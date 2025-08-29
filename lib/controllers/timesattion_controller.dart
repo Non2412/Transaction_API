@@ -13,8 +13,8 @@ class TimesationController extends ChangeNotifier {
   List<Map<String, dynamic>> get transactions => _transactions;
 
   // API Configuration
- static const String loginEmail = 'non1@sskru.ac.th'; // เปลี่ยนเป็น email จริงของคุณ
-static const String loginPassword = '123456'; // เปลี่ยนเป็น password จริงของคุณ
+  static const String baseUrl = 'https://transactions-cs.vercel.app';
+  static const String apiKey = 'YOUR_API_KEY_HERE'; // ใส่ API Key ของคุณที่นี่
 
   // Headers สำหรับ API requests
   Map<String, String> get _headers => {
@@ -22,10 +22,6 @@ static const String loginPassword = '123456'; // เปลี่ยนเป็�
     'Authorization': 'Bearer $apiKey', // หรือใช้ X-API-Key แทน
     // 'X-API-Key': apiKey, // ใช้อันนี้แทนถ้า API ต้องการ X-API-Key
   };
-  
-  get apiKey => null;
-  
-  get baseUrl => null;
 
   // สร้างธุรกรรมใหม่
   Future<bool> createTransaction({
