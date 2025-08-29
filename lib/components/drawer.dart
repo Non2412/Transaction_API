@@ -44,38 +44,44 @@ class AppDrawer extends StatelessWidget {
               ],
             ),
             ListTile(
-              leading: Icon(Icons.home),
+              leading: Icon(Icons.home, color: Colors.green),
               title: Text("Home"),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop(); // ปิด drawer
+                Get.offNamed(AppRoutes.home); // ไปหน้า Home
+              },
             ),
             ListTile(
-              leading: Icon(Icons.account_box),
+              leading: Icon(Icons.account_box, color: Colors.green),
               title: Text("About"),
               onTap: () {
-                Navigator.of(context).pop(); // ปิด drawer ก่อน
+                Navigator.of(context).pop();
                 Get.toNamed(AppRoutes.about);
               },
             ),
             ListTile(
-              leading: Icon(Icons.grid_3x3_outlined),
+              leading: Icon(Icons.grid_3x3_outlined, color: Colors.green),
               title: Text("Products"),
               onTap: () {
                 Navigator.of(context).pop();
-                Get.toNamed(AppRoutes.products);
+                Get.toNamed('/products'); // หรือ AppRoutes.products ถ้ามี
               },
             ),
             ListTile(
-              leading: Icon(Icons.contact_page),
+              leading: Icon(Icons.contact_page, color: Colors.green),
               title: Text("Contact"),
               onTap: () {
-                Get.toNamed('/contact');
+                Navigator.of(context).pop();
+                Get.toNamed(AppRoutes.contact);
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout),
+              leading: Icon(Icons.logout, color: Colors.green),
               title: Text("Logout"),
-              onTap: () {
-                authController.logout();
+              onTap: () async {
+                Navigator.of(context).pop();
+                await authController.logout();
+                Get.offAllNamed(AppRoutes.login);
               },
             ),
           ],
