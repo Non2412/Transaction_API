@@ -56,8 +56,9 @@ class AppDrawer extends StatelessWidget {
               leading: Icon(Icons.grid_3x3_outlined),
               title: Text("Products"),
               onTap: () {
-              Get.toNamed(AppRoutes.products);
-             },
+                Navigator.of(context).pop();
+                Get.toNamed(AppRoutes.products);
+              },
             ),
             ListTile(
               leading: Icon(Icons.grid_3x3_outlined),
