@@ -71,35 +71,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  List<Product> products = [
-    Product(
-        id: 1,
-        name: "iPhone 15 Pro",
-        price: 35000,
-        category: "อีเล็กทรอนิกส์",
-        stock: 15,
-        image:
-            "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
-        description: "สมาร์ทโฟนล่าสุดจาก Apple"),
-    Product(
-        id: 2,
-        name: "MacBook Air M2",
-        price: 42000,
-        category: "คอมพิวเตอร์",
-        stock: 8,
-        image:
-            "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=300&h=300&fit=crop",
-        description: "แล็ปท็อปบางเบาและมีประสิทธิภาพสูง"),
-    Product(
-        id: 3,
-        name: "AirPods Pro",
-        price: 8900,
-        category: "อุปกรณ์เสียง",
-        stock: 25,
-        image:
-            "https://images.unsplash.com/photo-1606841837239-c5a1a4af72e0?w=300&h=300&fit=crop",
-        description: "หูฟังไร้สายพร้อมระบบตัดเสียงรบกวน"),
-  ];
+  List<Product> products = [];
 
   String searchTerm = '';
   String selectedCategory = '';
@@ -232,7 +204,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
             Text(
-              'ไม่พบสินค้าที่ค้นหา',
+              'ยังไม่มีสินค้า กรุณาเพิ่มสินค้าใหม่',
               style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
             ),
           ],
@@ -366,22 +338,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ],
               ),
             ),
-
-            // Action Buttons
-            Column(
-              children: [
-                IconButton(
-                  onPressed: () => _editProduct(product),
-                  icon: const Icon(Icons.edit, color: Colors.blue),
-                  tooltip: 'แก้ไข',
-                ),
-                IconButton(
-                  onPressed: () => _deleteProduct(product),
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  tooltip: 'ลบ',
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -392,19 +348,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _clearForm();
     showDialog(
       context: context,
-      builder: (context) => _buildProductDialog('เพิ่มสินค้าใหม่', null),
+      builder: (context) => _buildProductDialog(),
     );
   }
 
-  void _editProduct(Product product) {
-    _fillForm(product);
-    showDialog(
-      context: context,
-      builder: (context) => _buildProductDialog('แก้ไขสินค้า', product),
-    );
-  }
-
-  Widget _buildProductDialog(String title, Product? product) {
+  Widget _buildProductDialog() {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Container(
@@ -418,9 +366,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              const Text(
+                'เพิ่มสินค้าใหม่',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
 
@@ -507,12 +455,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: () => _saveProduct(product),
+                    onPressed: _saveProduct,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue.shade600,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text(product == null ? 'เพิ่ม' : 'บันทึก'),
+                    child: const Text('เพิ่ม'),
                   ),
                 ],
               ),
@@ -523,10 +471,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-  void _saveProduct(Product? existingProduct) {
+  void _saveProduct() {
     if (_validateForm()) {
       final newProduct = Product(
-        id: existingProduct?.id ?? _generateNewId(),
+        id: _generateNewId(),
         name: _nameController.text.trim(),
         price: double.parse(_priceController.text),
         category: _categoryController.text,
@@ -538,50 +486,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
       );
 
       setState(() {
-        if (existingProduct != null) {
-          int index = products.indexWhere((p) => p.id == existingProduct.id);
-          if (index != -1) {
-            products[index] = newProduct;
-          }
-        } else {
-          products.add(newProduct);
-        }
+        products.add(newProduct);
       });
 
       Navigator.pop(context);
       Get.snackbar(
-        existingProduct == null ? 'สำเร็จ' : 'อัปเดตแล้ว',
-        existingProduct == null ? 'เพิ่มสินค้าสำเร็จ' : 'แก้ไขสินค้าสำเร็จ',
+        'สำเร็จ',
+        'เพิ่มสินค้าสำเร็จ',
         backgroundColor: Colors.green,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
     }
-  }
-
-  void _deleteProduct(Product product) {
-    Get.defaultDialog(
-      title: 'ยืนยันการลบ',
-      middleText: 'คุณต้องการลบสินค้า "${product.name}" หรือไม่?',
-      textConfirm: 'ลบ',
-      textCancel: 'ยกเลิก',
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.red,
-      cancelTextColor: Colors.grey.shade600,
-      onConfirm: () {
-        setState(() {
-          products.removeWhere((p) => p.id == product.id);
-        });
-        Get.back(); // ปิด dialog
-        Get.snackbar(
-          'ลบแล้ว',
-          'ลบสินค้าสำเร็จ',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      },
-    );
   }
 
   bool _validateForm() {
@@ -661,15 +577,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _stockController.clear();
     _imageController.clear();
     _descriptionController.clear();
-  }
-
-  void _fillForm(Product product) {
-    _nameController.text = product.name;
-    _priceController.text = product.price.toString();
-    _categoryController.text = product.category;
-    _stockController.text = product.stock.toString();
-    _imageController.text = product.image;
-    _descriptionController.text = product.description;
   }
 
   @override
