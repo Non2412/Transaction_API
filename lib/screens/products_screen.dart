@@ -97,9 +97,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('รายการสินค้า'),
-        backgroundColor: Colors.blue.shade600,
+        backgroundColor: Colors.green,
         foregroundColor: Colors.white,
-        elevation: 0,
+        elevation: 2,
       ),
       drawer: AppDrawer(),
       body: Column(
@@ -107,7 +107,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           // Search and Filter Section
           Container(
             padding: const EdgeInsets.all(16),
-            color: Colors.grey.shade50,
+            color: Colors.green[50], // เปลี่ยนพื้นหลังส่วนค้นหา
             child: Column(
               children: [
                 // Search Bar
@@ -119,9 +119,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   },
                   decoration: InputDecoration(
                     hintText: 'ค้นหาสินค้า...',
-                    prefixIcon: const Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search, color: Colors.green),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.green),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.green),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.green, width: 2),
                     ),
                     filled: true,
                     fillColor: Colors.white,
@@ -136,11 +145,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       FilterChip(
                         label: const Text('ทั้งหมด'),
                         selected: selectedCategory == '',
+                        selectedColor: Colors.green,
+                        checkmarkColor: Colors.white,
+                        labelStyle: TextStyle(
+                          color: selectedCategory == '' ? Colors.white : Colors.green,
+                        ),
                         onSelected: (selected) {
                           setState(() {
                             selectedCategory = '';
                           });
                         },
+                        backgroundColor: Colors.green[50],
                       ),
                       const SizedBox(width: 8),
                       ...categories
@@ -149,12 +164,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 child: FilterChip(
                                   label: Text(category),
                                   selected: selectedCategory == category,
+                                  selectedColor: Colors.green,
+                                  checkmarkColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: selectedCategory == category ? Colors.white : Colors.green,
+                                  ),
                                   onSelected: (selected) {
                                     setState(() {
-                                      selectedCategory =
-                                          selected ? category : '';
+                                      selectedCategory = selected ? category : '';
                                     });
                                   },
+                                  backgroundColor: Colors.green[50],
                                 ),
                               ))
                           .toList(),
@@ -175,7 +195,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       // Floating Action Button for Adding Product
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddProductDialog,
-        backgroundColor: Colors.blue.shade600,
+        backgroundColor: Colors.green,
         foregroundColor: Colors.white,
         tooltip: 'เพิ่มสินค้าใหม่',
         child: const Icon(Icons.add),
@@ -225,8 +245,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget _buildProductCard(Product product) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -237,11 +257,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.green[50],
+                border: Border.all(color: Colors.green.shade100, width: 2),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
                 child: Image.network(
                   product.image,
                   width: 80,
@@ -251,10 +272,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     return Container(
                       width: 80,
                       height: 80,
-                      color: Colors.grey.shade300,
+                      color: Colors.green[50],
                       child: const Icon(
                         Icons.image_not_supported,
-                        color: Colors.grey,
+                        color: Colors.green,
+                        size: 36,
                       ),
                     );
                   },
@@ -263,9 +285,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     return Container(
                       width: 80,
                       height: 80,
-                      color: Colors.grey.shade200,
+                      color: Colors.green[50],
                       child: const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(color: Colors.green),
                       ),
                     );
                   },
@@ -282,15 +304,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   Text(
                     product.name,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: Colors.green,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     product.description,
                     style: TextStyle(
-                      color: Colors.grey.shade600,
+                      color: Colors.grey.shade700,
                       fontSize: 14,
                     ),
                     maxLines: 2,
@@ -301,26 +324,27 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.blue.shade100,
+                          color: Colors.green[100],
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           product.category,
                           style: TextStyle(
-                            color: Colors.blue.shade800,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                            color: Colors.green[800],
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                       const SizedBox(width: 8),
+                      Icon(Icons.inventory, size: 16, color: Colors.green[400]),
                       Text(
-                        'คงเหลือ: ${product.stock}',
+                        ' คงเหลือ: ${product.stock}',
                         style: TextStyle(
                           color: product.stock > 10 ? Colors.green : Colors.orange,
-                          fontSize: 12,
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -328,11 +352,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '฿${product.price.toStringAsFixed(0)}',
+                    '฿${product.price.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green.shade600,
+                      color: Colors.green[700],
                     ),
                   ),
                 ],
@@ -390,6 +414,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   border: OutlineInputBorder(),
                   prefixText: '฿ ',
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _priceController.text = value ?? '';
+                  });
+                },
               ),
               const SizedBox(height: 16),
 
