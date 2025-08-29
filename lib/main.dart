@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:form_validate/screens/home.dart';
+import 'package:form_validate/screens/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -146,6 +148,14 @@ class MainApp extends StatelessWidget {
 class AppPages {
   static final routes = [
     GetPage(
+      name: AppRoutes.splash,
+      page: () => const SplashScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.home,
+      page: () => const HomeScreen(),
+    ),
+    GetPage(
       name: '/about',
       page: () => const AboutScreen(),
     ),
@@ -153,6 +163,6 @@ class AppPages {
       name: '/products',
       page: () => const ProductsScreen(),
     ),
-    // ... เพิ่มหน้าต่าง ๆ ...
+    // เพิ่ม routes อื่นๆ ตามต้องการ
   ];
 }
