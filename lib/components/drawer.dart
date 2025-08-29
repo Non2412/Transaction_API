@@ -68,7 +68,7 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.contact_page, color: Colors.green),
+              leading: Icon(Icons.contact_page, color: const Color.fromRGBO(76, 175, 80, 1)),
               title: Text("Contact"),
               onTap: () {
                 Navigator.of(context).pop();

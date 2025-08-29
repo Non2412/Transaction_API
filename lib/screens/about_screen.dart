@@ -129,7 +129,7 @@ class _AboutScreenState extends State<AboutScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('รายละเอียดสินค้า'),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromRGBO(76, 175, 80, 1),
         foregroundColor: Colors.white,
         actions: [
           if (productData != null)

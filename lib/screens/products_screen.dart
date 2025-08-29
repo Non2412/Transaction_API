@@ -97,7 +97,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('รายการสินค้า'),
-        backgroundColor: Colors.blue.shade600,
+        backgroundColor: const Color.fromRGBO(76, 175, 80, 1),
         foregroundColor: Colors.white,
         elevation: 0,
       ),
@@ -175,7 +175,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       // Floating Action Button for Adding Product
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddProductDialog,
-        backgroundColor: Colors.blue.shade600,
+        backgroundColor: const Color.fromRGBO(76, 175, 80, 1),
         foregroundColor: Colors.white,
         tooltip: 'เพิ่มสินค้าใหม่',
         child: const Icon(Icons.add),
@@ -309,7 +309,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         child: Text(
                           product.category,
                           style: TextStyle(
-                            color: Colors.blue.shade800,
+                            color: const Color.fromRGBO(76, 175, 80, 1),
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -457,7 +457,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ElevatedButton(
                     onPressed: _saveProduct,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue.shade600,
+                      backgroundColor: const Color.fromRGBO(76, 175, 80, 1),
                       foregroundColor: Colors.white,
                     ),
                     child: const Text('เพิ่ม'),
