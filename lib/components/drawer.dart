@@ -62,11 +62,6 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.grid_3x3_outlined),
-              title: Text("Products"),
-              onTap: () {},
-            ),
-            ListTile(
               leading: Icon(Icons.contact_mail),
               title: Text("Contact"),
               onTap: () {},
