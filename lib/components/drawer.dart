@@ -60,7 +60,7 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.grid_3x3_outlined, color: Colors.green),
+              leading: Icon(Icons.grid_3x3_outlined, color: const Color.fromRGBO(76, 175, 80, 1)),
               title: Text("Products"),
               onTap: () {
                 Navigator.of(context).pop();
